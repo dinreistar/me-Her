@@ -1,0 +1,574 @@
+
+/* =========================================
+   1. THEME & RESET
+   Customize colors here
+========================================= */
+
+:root {
+  --pink: #ffd8ed;
+  --pink-bright: #ffb8e0;
+  --lavender: #e4d6ff;
+  --white: #fffaff;
+  --glass: rgba(255, 239, 251, 0.09);
+  --glass-border: rgba(255, 239, 251, 0.24);
+  --text-soft: rgba(255, 248, 255, 0.78);
+  --shadow: rgba(15, 5, 24, 0.35);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  min-height: 100%;
+  background: #26152f;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  min-height: 100vh;
+  min-height: 100svh;
+  overflow-x: hidden;
+  color: var(--white);
+  font-family: "Segoe UI", "Hiragino Kaku Gothic ProN",
+    "Yu Gothic", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+button {
+  color: inherit;
+  font: inherit;
+  -webkit-tap-highlight-color: transparent;
+}
+
+button:focus-visible {
+  outline: 2px solid var(--pink);
+  outline-offset: 5px;
+}
+
+/* =========================================
+   2. FULL-SCREEN BACKGROUND
+   Replace background.jpg to change the image
+========================================= */
+
+.background,
+.background-overlay {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+}
+
+.background {
+  z-index: -3;
+  background-image: url("background.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  transform: scale(1.015);
+}
+
+.background-overlay {
+  z-index: -2;
+  background:
+    radial-gradient(
+      ellipse at 50% 42%,
+      rgba(69, 34, 76, 0.15),
+      rgba(20, 10, 32, 0.48) 70%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(24, 13, 35, 0.40) 0%,
+      rgba(36, 16, 44, 0.35) 48%,
+      rgba(18, 10, 30, 0.72) 100%
+    );
+}
+
+/* =========================================
+   3. MAIN LAYOUT
+========================================= */
+
+.love-page {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  isolation: isolate;
+  width: 100%;
+  min-height: 100vh;
+  min-height: 100svh;
+  padding:
+    max(28px, env(safe-area-inset-top))
+    20px
+    max(22px, env(safe-area-inset-bottom));
+  text-align: center;
+  animation: page-enter 1.4s ease both;
+}
+
+.top-label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 13px;
+  padding: 10px 19px;
+  border: 1px solid var(--glass-border);
+  border-radius: 999px;
+  background: rgba(255, 240, 255, 0.07);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  color: var(--text-soft);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.32em;
+}
+
+.tiny-heart {
+  color: var(--pink-bright);
+  font-size: 15px;
+}
+
+/* =========================================
+   4. ROMANTIC HEADINGS
+========================================= */
+
+.love-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 480px;
+  margin: auto 0;
+  padding: 25px 0 28px;
+}
+
+.eyebrow {
+  margin-bottom: 10px;
+  color: var(--text-soft);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+}
+
+.main-title {
+  color: var(--white);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(35px, 8vw, 51px);
+  font-weight: 400;
+  letter-spacing: -0.045em;
+  line-height: 1.18;
+  text-shadow: 0 3px 24px rgba(255, 180, 230, 0.18);
+}
+
+.subtitle {
+  margin-top: 12px;
+  color: var(--pink);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 12px;
+  font-style: italic;
+  letter-spacing: 0.06em;
+}
+
+/* =========================================
+   5. ANIMATED HEART
+========================================= */
+
+.main-heart {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 82px;
+  height: 82px;
+  margin: 24px 0 17px;
+  border: 1px solid rgba(255, 223, 246, 0.22);
+  border-radius: 50%;
+  background: rgba(255, 227, 248, 0.09);
+  box-shadow:
+    0 0 35px rgba(255, 155, 218, 0.13),
+    inset 0 0 24px rgba(255, 229, 250, 0.05);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  cursor: pointer;
+  transition: transform 250ms ease, background 250ms ease;
+}
+
+.main-heart:hover {
+  background: rgba(255, 209, 239, 0.16);
+  transform: scale(1.06);
+}
+
+.main-heart:active {
+  transform: scale(0.93);
+}
+
+.heart-glow {
+  position: absolute;
+  inset: 12px;
+  border-radius: 50%;
+  background: rgba(255, 145, 209, 0.12);
+  filter: blur(13px);
+}
+
+.heart-symbol {
+  position: relative;
+  color: var(--pink-bright);
+  font-size: 38px;
+  line-height: 1;
+  text-shadow: 0 0 20px rgba(255, 145, 209, 0.65);
+  animation: heartbeat 2s ease-in-out infinite;
+}
+
+/* =========================================
+   6. RELATIONSHIP COUNTER
+========================================= */
+
+.counter {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.counter-label {
+  margin-bottom: -5px;
+  color: var(--pink);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.38em;
+}
+
+.day-number {
+  color: #fff7ff;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(92px, 24vw, 142px);
+  font-weight: 400;
+  letter-spacing: -0.075em;
+  line-height: 1.13;
+  font-variant-numeric: lining-nums tabular-nums;
+  text-shadow:
+    0 4px 40px rgba(255, 193, 235, 0.22),
+    0 0 75px rgba(226, 188, 255, 0.12);
+  transition: opacity 250ms ease;
+}
+
+.days-together {
+  margin-top: 2px;
+  color: var(--text-soft);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.31em;
+}
+
+.since-date {
+  margin-top: 16px;
+  color: var(--text-soft);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 13px;
+  font-style: italic;
+  letter-spacing: 0.035em;
+}
+
+/* =========================================
+   7. MUSIC PLAYER
+========================================= */
+
+.music-area {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 13px;
+  margin-top: 27px;
+  text-align: left;
+}
+
+.music-button {
+  display: grid;
+  place-items: center;
+  flex: 0 0 48px;
+  width: 48px;
+  height: 48px;
+  border: 1px solid var(--glass-border);
+  border-radius: 50%;
+  background: var(--glass);
+  box-shadow: 0 5px 25px rgba(0, 0, 0, 0.12);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  color: var(--pink);
+  font-size: 15px;
+  cursor: pointer;
+  transition: background 200ms ease, transform 200ms ease;
+}
+
+.music-button:hover {
+  background: rgba(255, 223, 246, 0.18);
+  transform: scale(1.06);
+}
+
+.music-button:active {
+  transform: scale(0.94);
+}
+
+.music-button.is-playing {
+  animation: music-glow 2.4s ease-in-out infinite;
+}
+
+.music-caption {
+  min-width: 155px;
+}
+
+.song-title {
+  color: var(--white);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 14px;
+  letter-spacing: 0.02em;
+}
+
+.song-title span {
+  color: var(--pink);
+}
+
+.song-status {
+  margin-top: 4px;
+  color: var(--text-soft);
+  font-size: 10px;
+  letter-spacing: 0.025em;
+}
+
+/* =========================================
+   8. LOVE MESSAGE & FOOTER
+========================================= */
+
+.love-message {
+  max-width: 310px;
+  margin-top: 28px;
+  color: rgba(255, 244, 255, 0.89);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 13px;
+  font-style: italic;
+  line-height: 1.8;
+  text-shadow: 0 2px 15px var(--shadow);
+}
+
+.bottom-note {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  color: rgba(255, 241, 255, 0.63);
+  font-size: 9px;
+  letter-spacing: 0.16em;
+}
+
+.footer-heart {
+  color: var(--pink-bright);
+  font-size: 13px;
+}
+
+/* =========================================
+   9. FLOATING PARTICLES
+========================================= */
+
+.particles {
+  position: fixed;
+  inset: 0;
+  z-index: 2;
+  overflow: hidden;
+  pointer-events: none;
+  contain: strict;
+}
+
+.particle {
+  position: absolute;
+  bottom: -35px;
+  color: rgba(255, 218, 245, 0.76);
+  font-size: var(--size, 15px);
+  opacity: 0;
+  user-select: none;
+  will-change: transform, opacity;
+  animation: float-up var(--duration, 17s) linear var(--delay, 0s) infinite;
+}
+
+.burst-particle {
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: var(--pink-bright);
+  font-size: var(--size, 15px);
+  opacity: 0;
+  animation: heart-burst 1.5s ease-out forwards;
+}
+
+/* =========================================
+   10. ANIMATIONS
+========================================= */
+
+@keyframes page-enter {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes heartbeat {
+  0%, 100% { transform: scale(1); }
+  12% { transform: scale(1.12); }
+  24% { transform: scale(1); }
+  36% { transform: scale(1.08); }
+  48% { transform: scale(1); }
+}
+
+@keyframes music-glow {
+  0%, 100% {
+    box-shadow: 0 0 10px rgba(255, 166, 224, 0.12);
+  }
+  50% {
+    box-shadow: 0 0 23px rgba(255, 166, 224, 0.38);
+  }
+}
+
+@keyframes float-up {
+  0% {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+    opacity: 0;
+  }
+  12% { opacity: 0.55; }
+  78% { opacity: 0.45; }
+  100% {
+    transform: translate3d(var(--drift, 24px), -115vh, 0)
+      rotate(35deg);
+    opacity: 0;
+  }
+}
+
+@keyframes heart-burst {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.4);
+  }
+  20% { opacity: 1; }
+  100% {
+    opacity: 0;
+    transform:
+      translate(
+        calc(-50% + var(--x, 0px)),
+        calc(-50% + var(--y, -50px))
+      )
+      scale(1.1) rotate(var(--rotation, 20deg));
+  }
+}
+
+/* =========================================
+   11. SMALL SCREENS
+========================================= */
+
+@media (max-width: 380px) {
+  .love-page {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .main-title {
+    font-size: clamp(32px, 9vw, 39px);
+  }
+
+  .main-heart {
+    width: 72px;
+    height: 72px;
+    margin-top: 20px;
+    margin-bottom: 14px;
+  }
+
+  .heart-symbol {
+    font-size: 34px;
+  }
+
+  .day-number {
+    font-size: clamp(82px, 23vw, 100px);
+  }
+
+  .love-message {
+    margin-top: 22px;
+    font-size: 12px;
+  }
+}
+
+@media (max-height: 700px) {
+  .love-page {
+    padding-top: max(16px, env(safe-area-inset-top));
+    padding-bottom: max(14px, env(safe-area-inset-bottom));
+  }
+
+  .love-content {
+    padding-top: 16px;
+    padding-bottom: 16px;
+  }
+
+  .main-heart {
+    width: 64px;
+    height: 64px;
+    margin-top: 16px;
+    margin-bottom: 10px;
+  }
+
+  .heart-symbol {
+    font-size: 30px;
+  }
+
+  .day-number {
+    font-size: clamp(78px, 18vh, 112px);
+  }
+
+  .music-area {
+    margin-top: 18px;
+  }
+
+  .love-message {
+    margin-top: 17px;
+  }
+}
+
+/* Respect visitors who prefer reduced animation */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+.visualizer-box {
+  width: 100%;
+  max-width: 600px;
+  margin: 25px auto;
+  padding: 20px;
+  box-sizing: border-box;
+  text-align: center;
+  background: rgba(22, 15, 42, 0.9);
+  border: 1px solid rgba(216, 180, 254, 0.4);
+  border-radius: 20px;
+  box-shadow: 0 0 25px rgba(168, 85, 247, 0.15);
+}
+
+.visualizer-title {
+  color: #f0abfc;
+  font-size: 18px;
+}
+
+#musicVisualizer {
+  display: block;
+  width: 100%;
+  height: 150px;
+}
+
+#visualizerStatus {
+  color: #d8b4fe;
+  font-size: 13px;
+}
