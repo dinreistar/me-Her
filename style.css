@@ -63,7 +63,7 @@ button:focus-visible {
 
 .background {
   z-index: -3;
-  background-image: url("background.jpg");
+  background-image: url("background.JPG");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
