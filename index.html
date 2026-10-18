@@ -15,6 +15,76 @@
 </head>
 
 <body>
+  
+  <!-- Romantic navigation menu -->
+  <button id="menuToggle" class="menu-toggle" type="button"
+          aria-label="Open menu" aria-expanded="false">
+    ☰
+  </button>
+
+  <nav id="sideMenu" class="side-menu" aria-label="Main menu" hidden>
+    <div class="menu-heading">Our Little World ♡</div>
+    <button class="menu-link" data-page="home">♡ Home</button>
+    <button class="menu-link" data-page="game">♡ Mini Game</button>
+    <button class="menu-link" data-page="music">♫ Music player YT</button>
+  </nav>
+
+  <section id="miniMusic" class="mini-music" hidden>
+    <div class="mini-music-header">
+      <div>
+        <p class="mini-kicker">OUR FAVORITE PLAYLIST ♡</p>
+        <h2>Mini Music Tab</h2>
+      </div>
+      <button id="closeMiniMusic" class="close-mini"
+              type="button" aria-label="Close music">✕</button>
+    </div>
+
+    <input id="songSearch" class="song-search"
+           type="search" placeholder="Search songs..."
+           aria-label="Search songs">
+
+    <div id="songList" class="song-list"></div>
+
+    <p class="mini-hint">Choose a song to play ♡</p>
+  </section>
+
+    
+<section id="gamePanel" class="mini-music game-panel" hidden>
+  <div class="mini-music-header">
+    <div>
+      <p class="mini-kicker">A LITTLE GAME ♡ CREATE BY GPT</p>
+      <h2>Catch My Heart</h2>
+    </div>
+    <button id="closeGame" class="close-mini" type="button"
+      aria-label="Close game">✕</button>
+  </div>
+
+  <p class="game-description">
+    Catch the hearts before time runs out! 💗
+  </p>
+
+  <div class="game-stats">
+    <div>Score <strong id="gameScore">0</strong></div>
+    <div>Time <strong id="gameTime">20</strong>s</div>
+  </div>
+
+  <div id="heartArena" class="heart-arena">
+    <p class="arena-message" id="arenaMessage">
+      Ready for a little love? ♡
+    </p>
+  </div>
+
+  <button id="startGame" class="start-game-button" type="button">
+    ♡ Start Game ♡
+  </button>
+
+  <p class="game-result" id="gameResult" aria-live="polite">
+    Made with love ♡
+  </p>
+</section>
+
+  </section>
+
   <div class="background" aria-hidden="true"></div>
   <div class="background-overlay" aria-hidden="true"></div>
 

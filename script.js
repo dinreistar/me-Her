@@ -114,13 +114,14 @@ document.addEventListener("visibilitychange", () => {
 // =============================================
 
 const songs = [
-  { title: "Love me harder ♡", src: "music1_love me harder.mp3" },
-  { title: "blue 🌸", src: "music2_blue.mp3" },
-  { title: "You & Me 💗", src: "music3.mp3" },
-  { title: "Forever Together ✨", src: "music4.mp3" }
+  { title: "Love me harder ♡ by Taylor Swift", src: "music1_love me harder.mp3" },
+  { title: "blue 🌸 By yung kai", src: "music2_blue.mp3" },
+  { title: "Hadest to love💗 By THE Weeknd", src: "Hardest To Love .mp3" },
+  { title: "STAY WITH ME ✨by Tol sophiti", src: "stay with me.mp3" }
 ];
 
 const music = document.getElementById("ourSong");
+music.volume = 0.7;
 const musicToggle = document.getElementById("musicToggle");
 const musicIcon = document.getElementById("musicIcon");
 const musicStatus = document.getElementById("musicStatus");
@@ -490,3 +491,265 @@ if (audio && canvas && ctx) {
 
   drawVisualizer();
 }
+
+/* ===== MENU, GAME & MINI MUSIC TAB ===== */
+
+const menuToggle = document.getElementById("menuToggle");
+const sideMenu = document.getElementById("sideMenu");
+const miniMusic = document.getElementById("miniMusic");
+const gamePanel = document.getElementById("gamePanel");
+const songSearch = document.getElementById("songSearch");
+const songList = document.getElementById("songList");
+
+function closePanels() {
+  sideMenu.hidden = true;
+  miniMusic.hidden = true;
+  gamePanel.hidden = true;
+  menuToggle.setAttribute("aria-expanded", "false");
+  menuToggle.setAttribute("aria-label", "Open menu");
+}
+
+menuToggle.addEventListener("click", () => {
+  const opening = sideMenu.hidden;
+  closePanels();
+
+  if (opening) {
+    sideMenu.hidden = false;
+    menuToggle.setAttribute("aria-expanded", "true");
+    menuToggle.setAttribute("aria-label", "Close menu");
+  }
+});
+
+document.querySelectorAll(".menu-link").forEach(button => {
+  button.addEventListener("click", () => {
+    const page = button.dataset.page;
+    closePanels();
+
+    if (page === "home") {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    if (page === "music") {
+      miniMusic.hidden = false;
+      renderSongList(songSearch.value);
+    }
+
+    if (page === "game") {
+      gamePanel.hidden = false;
+    }
+  });
+});
+
+document.getElementById("closeMiniMusic").addEventListener("click", () => {
+  miniMusic.hidden = true;
+});
+
+document.getElementById("closeGame").addEventListener("click", () => {
+  gamePanel.hidden = true;
+});
+
+function renderSongList(query = "") {
+  const search = query.trim().toLowerCase();
+  songList.replaceChildren();
+
+  const matchingSongs = songs
+    .map((song, index) => ({ song, index }))
+    .filter(item => item.song.title.toLowerCase().includes(search));
+
+  if (matchingSongs.length === 0) {
+    const empty = document.createElement("p");
+    empty.className = "mini-hint";
+    empty.textContent = "No songs found ♡";
+    songList.appendChild(empty);
+    return;
+  }
+
+  matchingSongs.forEach(({ song, index }) => {
+    const row = document.createElement("div");
+    row.className = "song-item";
+
+    const name = document.createElement("span");
+    name.className = "song-name";
+    name.textContent = song.title;
+
+    const playButton = document.createElement("button");
+    playButton.className = "song-play";
+    playButton.type = "button";
+    playButton.textContent =
+      currentSong === index && !music.paused ? "Ⅱ" : "▶";
+    playButton.setAttribute("aria-label", "Play " + song.title);
+
+    playButton.addEventListener("click", async () => {
+      if (currentSong === index && !music.paused) {
+        music.pause();
+        renderSongList(songSearch.value);
+        return;
+      }
+
+      currentSong = index;
+      music.src = song.src;
+      music.load();
+      showSongTitle();
+
+      try {
+        await music.play();
+        showMusicState(true);
+      } catch (error) {
+        showMusicState(false);
+        musicStatus.textContent = "Could not play this song ♡";
+      }
+
+      renderSongList(songSearch.value);
+    });
+
+    row.append(name, playButton);
+    songList.appendChild(row);
+  });
+}
+
+songSearch.addEventListener("input", () => {
+  renderSongList(songSearch.value);
+});
+
+music.addEventListener("play", () => {
+  if (!miniMusic.hidden) renderSongList(songSearch.value);
+});
+
+music.addEventListener("pause", () => {
+  if (!miniMusic.hidden) renderSongList(songSearch.value);
+});
+
+music.addEventListener("ended", () => {
+  if (!miniMusic.hidden) renderSongList(songSearch.value);
+});
+
+document.addEventListener("keydown", event => {
+  if (event.key === "Escape") closePanels();
+});
+
+closePanels();
+
+/* ===== CATCH MY HEART GAME ===== */
+
+const heartArena = document.getElementById("heartArena");
+const startGameButton = document.getElementById("startGame");
+const gameScoreDisplay = document.getElementById("gameScore");
+const gameTimeDisplay = document.getElementById("gameTime");
+const gameResult = document.getElementById("gameResult");
+const arenaMessage = document.getElementById("arenaMessage");
+
+let loveGameScore = 0;
+let loveGameTime = 20;
+let loveGameRunning = false;
+let loveGameTimer = null;
+
+
+function spawnLoveHeart() {
+  heartArena.querySelectorAll(".floating-game-heart").forEach(
+    heart => heart.remove()
+  );
+
+  if (!loveGameRunning) return;
+
+  const heart = document.createElement("button");
+  heart.type = "button";
+  heart.className = "floating-game-heart";
+  heart.textContent = "♥";
+  heart.setAttribute("aria-label", "Catch this heart");
+
+  const maxX = Math.max(0, heartArena.clientWidth - 48);
+  const maxY = Math.max(0, heartArena.clientHeight - 48);
+
+  heart.style.left = Math.random() * maxX + "px";
+  heart.style.top = Math.random() * maxY + "px";
+
+  heart.addEventListener("click", () => {
+    if (!loveGameRunning) return;
+
+    loveGameScore++;
+    gameScoreDisplay.textContent = loveGameScore;
+
+    // Small pop effect when the heart is caught
+    heart.animate(
+      [
+        { transform: "scale(1)", opacity: 1 },
+        { transform: "scale(1.7)", opacity: 0 }
+      ],
+      { duration: 180, easing: "ease-out" }
+    );
+
+    spawnLoveHeart();
+  });
+
+  heartArena.appendChild(heart);
+}
+
+
+function finishLoveGame() {
+  loveGameRunning = false;
+  clearInterval(loveGameTimer);
+  loveGameTimer = null;
+
+  heartArena.querySelectorAll(".floating-game-heart").forEach(
+    heart => heart.remove()
+  );
+
+  arenaMessage.hidden = false;
+  arenaMessage.textContent = "You collected " + loveGameScore + " hearts! ♡";
+
+  if (loveGameScore >= 15) {
+    gameResult.textContent = "Amazing! You caught so much love! 💗";
+  } else if (loveGameScore >= 7) {
+    gameResult.textContent = "Aww, sending you extra kisses! 😘";
+  } else {
+    gameResult.textContent = "Every heart counts. Sending you love! 🌸";
+  }
+
+  startGameButton.textContent = "♡ Play Again ♡";
+}
+
+startGameButton.addEventListener("click", () => {
+  if (loveGameRunning) return;
+
+  clearInterval(loveGameTimer);
+
+  loveGameScore = 0;
+  loveGameTime = 20;
+  loveGameRunning = true;
+
+  gameScoreDisplay.textContent = "0";
+  gameTimeDisplay.textContent = "20";
+  gameResult.textContent = "Catch as many hearts as you can! ♡";
+  arenaMessage.hidden = true;
+  startGameButton.textContent = "♡ Game Running ♡";
+
+  spawnLoveHeart();
+
+  loveGameTimer = setInterval(() => {
+    loveGameTime--;
+    gameTimeDisplay.textContent = loveGameTime;
+
+    if (loveGameTime <= 0) {
+      gameTimeDisplay.textContent = "0";
+      finishLoveGame();
+    }
+  }, 1000);
+});
+
+/* Stop the timer if the game panel is closed. */
+document.getElementById("closeGame").addEventListener("click", () => {
+  if (loveGameRunning) {
+    clearInterval(loveGameTimer);
+    loveGameTimer = null;
+    loveGameRunning = false;
+
+    heartArena.querySelectorAll(".floating-game-heart").forEach(
+      heart => heart.remove()
+    );
+
+    arenaMessage.hidden = false;
+    arenaMessage.textContent = "Ready for a little love? ♡";
+    gameResult.textContent = "Game paused. Play again anytime! 💗";
+    startGameButton.textContent = "♡ Start Game ♡";
+  }
+});
